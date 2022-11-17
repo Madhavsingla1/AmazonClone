@@ -1,5 +1,6 @@
 import 'package:amazon/Common/widgets/custom_button.dart';
 import 'package:amazon/Common/widgets/custom_textfield.dart';
+import 'package:amazon/Features/auth/services/auth_service.dart';
 import 'package:amazon/Utils/global_varibales.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,8 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   AuthMode _auth = AuthMode.signup;
+  final AuthService _authService = AuthService();
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -31,6 +34,15 @@ class _AuthScreenState extends State<AuthScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     _nameController.dispose();
+  }
+
+  void signupUser() {
+    _authService.signupUser(
+      email: _emailController.text,
+      password: _passwordController.text,
+      name: _nameController.text,
+      context: context,
+    );
   }
 
   @override
@@ -93,7 +105,14 @@ class _AuthScreenState extends State<AuthScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      CustomButton(text: 'SignUp', onpressed: () {})
+                      CustomButton(
+                        text: 'SignUp',
+                        onpressed: () {
+                          if (_signupFormKey.currentState!.validate()) {
+                            signupUser();
+                          }
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -117,7 +136,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 padding: const EdgeInsets.all(8),
                 color: GlobalVariables.backgroundColor,
                 child: Form(
-                  key: _signupFormKey,
+                  key: _signinFormKey,
                   child: Column(
                     children: [
                       CustomTextField(

@@ -1,4 +1,7 @@
+import 'package:amazon/Models/user.dart';
 import 'package:flutter/material.dart';
+
+String uri = 'http://192.168.18.9:3000';
 
 class GlobalVariables {
   static const appBarGradient = LinearGradient(
